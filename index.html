@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BI – Manutenção Predial</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body data-page="home">
+    <div class="bg-grid"></div>
+
+    <header class="site-header">
+        <div class="container nav">
+            <div class="brand">
+                <div class="logo-dot"></div>
+                <div>
+                    <span class="brand-name">BI – Manutenção Predial</span>
+                    <span class="brand-role">Rede de Escolas – URE Suzano</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="relatorio.html">Painel de chamados</a>
+                <a href="painel.html">Painel de equipamentos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <section class="page-header">
+            <div>
+                <h1>Central – Manutenção & Equipamentos</h1>
+                <p>
+                    Escolha abaixo qual painel deseja visualizar: acompanhamento dos
+                    chamados de manutenção ou visão geral dos equipamentos por escola.
+                </p>
+            </div>
+        </section>
+
+        <section class="card" style="margin-bottom:1.5rem;">
+            <h2 style="margin-bottom:.5rem;">Painéis disponíveis</h2>
+            <p class="card-subtitle">
+                Navegue entre os painéis de BI para acompanhamento da rede.
+            </p>
+
+            <div class="kpi-grid" style="margin-top:1.25rem;">
+                <article class="kpi-card" style="cursor:pointer;" onclick="location.href='relatorio.html'">
+                    <span class="kpi-label">Painel 01</span>
+                    <strong class="kpi-value">Chamados de manutenção</strong>
+                    <p class="kpi-subtitle">
+                        Indicadores de registros por escola, status (resolvido / em manutenção),
+                        distribuição por tipo de equipamento e últimos chamados.
+                    </p>
+                </article>
+              
+                <article class="kpi-card" style="cursor:pointer;" onclick="location.href='painel.html'">
+                    <span class="kpi-label">Painel 02</span>
+                    <strong class="kpi-value">Equipamentos por escola</strong>
+                    <p class="kpi-subtitle">
+                        Visão consolidada da quantidade de notebooks, desktops, tablets e celulares
+                        em cada unidade escolar da rede.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 style="margin-bottom:.5rem;">Como utilizar</h2>
+            <p class="card-subtitle">
+                Sugestão de fluxo para o uso diário do painel de manutenção predial.
+            </p>
+
+            <ul style="margin-top:.9rem; font-size:.86rem; color:#cbd5f5; padding-left:1.1rem;">
+                <li style="margin-bottom:.3rem;">
+                    Registrar novos chamados em <strong>“Cadastro de equipamentos”</strong>.
+                </li>
+                <li style="margin-bottom:.3rem;">
+                    Acompanhar e editar registros em <strong>“Lista de cadastros”</strong>.
+                </li>
+                <li style="margin-bottom:.3rem;">
+                    Visualizar a situação geral da rede em
+                    <strong>“Painel de chamados”</strong>, filtrando por escola, status ou período.
+                </li>
+                <li>
+                    Consultar a distribuição de equipamentos por unidade em
+                    <strong>“Painel de equipamentos por escola”</strong>.
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span> Manutenção Predial</span>
+            <span class="dot-separator"></span>
+            <span>Rede de Escolas – Painéis de acompanhamento</span>
+        </div>
+    </footer>
+</body>
+
+</html>
