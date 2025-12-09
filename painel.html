@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel de controle - Equipamentos Escolares</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- CSS do painel (corrigido o nome) -->
+    <link rel="stylesheet" href="painel.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+
+    <header class="site-header">
+        <div class="container nav">
+            <div class="brand">
+                <div class="logo-dot"></div>
+                <div>
+                    <span class="brand-name">Relatório de Equipamentos</span>
+                    <span class="brand-role">Rede de Escolas</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="relatorio.html">Painel de chamados (manutenção)</a>
+                <a href="painel.html">Painel de equipamentos por escola</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- Cabeçalho -->
+        <section class="page-header">
+            <div>
+                <h1>Painel de controle - Equipamentos Escolares</h1>
+                <p>
+                    Painel consolidado dos equipamentos escolares. Visualize o total geral ou filtre por escola.
+                    Os dados são apenas para consulta.
+                </p>
+            </div>
+            <div class="pill">
+                <span class="pill-dot"></span>
+                <span id="viewModeLabel">Visão geral – Todas as escolas</span>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="filters">
+            <div class="filter-group">
+                <label for="schoolSelect">Escola</label>
+                <select id="schoolSelect">
+                    <option value="all">Carregando escolas...</option>
+                </select>
+            </div>
+            <div class="filter-hint">
+                <span>💡 Dica:</span>
+                <span>Selecione uma escola para ver os equipamentos daquela unidade.</span>
+            </div>
+        </section>
+
+        <!-- Cards + gráfico -->
+        <section class="grid-top">
+            <!-- Resumo -->
+            <div class="summary-cards card">
+                <div class="metric-card">
+                    <p class="metric-label">Total de equipamentos</p>
+                    <p class="metric-value" id="totalEquip">0</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="metric-label">Notebook Positivo</p>
+                    <p class="metric-value" id="totalPositivo">0</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="metric-label">Notebook Lenovo</p>
+                    <p class="metric-value" id="totalLenovo">0</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="metric-label">Desktops</p>
+                    <p class="metric-value" id="totalDesktop">0</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="metric-label">Tablets</p>
+                    <p class="metric-value" id="totalTablet">0</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="metric-label">Celulares</p>
+                    <p class="metric-value" id="totalCelular">0</p>
+                </div>
+            </div>
+
+            <!-- Gráfico -->
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h2>Distribuição por tipo de equipamento</h2>
+                        <p class="chart-subtitle">
+                            O gráfico se ajusta conforme você seleciona a visão geral ou uma escola específica.
+                        </p>
+                    </div>
+                </div>
+                <canvas id="equipmentChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Aviso -->
+        <section class="card edit-panel" style="margin-top: 8px;">
+            <p class="edit-info">
+                🔒 Este painel está em <strong>modo somente leitura</strong>. As informações são atualizadas
+                automaticamente a partir do banco de dados sempre que um responsável altera os registros
+                nas telas de cadastro.
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>Relatório de Equipamentos Escolares</span>
+            <span class="dot-separator"></span>
+            <span>Painel de Indicadores</span>
+        </div>
+    </footer>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <!-- JS do painel (corrigido o nome) -->
+    <script src="painel.js"></script>
+</body>
+
+</html>

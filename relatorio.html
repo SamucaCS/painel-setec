@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel – Equipamentos Escolares</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body data-page="relatorio">
+    <div class="bg-grid"></div>
+
+    <header class="site-header">
+        <div class="container nav">
+            <div class="brand">
+                <div class="logo-dot"></div>
+                <div>
+                    <span class="brand-name">Relatório de Equipamentos</span>
+                    <span class="brand-role">Rede de Escolas</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="relatorio.html" class="active">Painel de chamados (manutenção)</a>
+                <a href="painel.html">Painel de equipamentos por escola</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- Cabeçalho -->
+        <section class="page-header">
+            <div>
+                <h1>Painel – Itens cadastrados</h1>
+                <p>Visão geral dos cadastros de equipamentos e chamados de manutenção.</p>
+            </div>
+        </section>
+
+        <!-- Filtro geral por escola -->
+        <section class="painel-filter-row">
+            <div class="filter-group">
+                <label for="filtro-escola">Filtrar por escola</label>
+                <select id="filtro-escola" class="filter-select">
+                    <option value="all">Todas as escolas</option>
+                </select>
+            </div>
+            <p class="filter-hint">
+                💡 Selecione uma escola para ver os indicadores apenas dessa unidade.
+            </p>
+        </section>
+
+        <!-- CARDS DE MÉTRICAS -->
+        <section class="card">
+            <h2 style="margin-bottom:.5rem;">Resumo dos cadastros</h2>
+            <p class="card-subtitle">
+                Indicadores gerais dos itens cadastrados na rede de escolas.
+            </p>
+
+            <div class="kpi-grid">
+                <article class="kpi-card">
+                    <span class="kpi-label">Total de registros</span>
+                    <strong class="kpi-value" id="kpi-total">0</strong>
+                    <p class="kpi-subtitle">Todos os cadastros de equipamentos/chamados.</p>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-label">Chamados resolvidos</span>
+                    <strong class="kpi-value kpi-success" id="kpi-resolvido">0</strong>
+                    <p class="kpi-subtitle">Registros marcados como resolvidos.</p>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-label">Em manutenção (abertos)</span>
+                    <strong class="kpi-value kpi-warning" id="kpi-nao-resolvido">0</strong>
+                    <p class="kpi-subtitle">Registros ainda não resolvidos.</p>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-label">Escolas atendidas</span>
+                    <strong class="kpi-value" id="kpi-escolas">0</strong>
+                    <p class="kpi-subtitle">Quantidade de escolas com pelo menos um cadastro.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- DISTRIBUIÇÃO (gráficos) -->
+        <section class="card">
+            <h2 style="margin-bottom:.5rem;">Distribuição dos cadastros</h2>
+            <p class="card-subtitle">
+                Visualização dos itens cadastrados por tipo de equipamento e por escola.
+            </p>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3 class="chart-title">Cadastros por tipo de equipamento</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="chartTipoEquipamento"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3 class="chart-title">Cadastros por escola</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="chartPorEscola"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <p id="mensagem-painel" class="card-subtitle" style="margin-top:1rem;"></p>
+        </section>
+
+        <!-- ÚLTIMOS REGISTROS -->
+        <section class="card card-table">
+            <div class="card-table-header">
+                <div>
+                    <h2>Últimos registros</h2>
+                    <p class="card-subtitle">
+                        Lista dos registros mais recentes, considerando os filtros aplicados.
+                    </p>
+                </div>
+                <div class="card-table-info" id="info-qtd-por-escola"></div>
+            </div>
+
+            <div class="table-filters">
+                <div class="filter-group-inline">
+                    <label for="filtro-status">Status</label>
+                    <select id="filtro-status">
+                        <option value="todos">Todos</option>
+                        <option value="resolvido">Resolvido</option>
+                        <option value="nao_resolvido">Manutenção pela escola</option>
+                    </select>
+                </div>
+
+                <div class="filter-group-inline">
+                    <label for="filtro-data-inicio">Data inicial</label>
+                    <input type="date" id="filtro-data-inicio" />
+                </div>
+
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-chamados" id="tabela-ultimos">
+                    <thead>
+                        <tr>
+                            <th>Tema</th>
+                            <th>Escola / URE</th>
+                            <th>Descrição</th>
+                            <th>Situação / Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="table-empty">
+                                Carregando registros...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>Relatório de Equipamentos Escolares</span>
+            <span class="dot-separator"></span>
+            <span>Painel de controle - Dirigente</span>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- JS do painel -->
+    <script src="./relatorio.js"></script>
+
+</body>
+
+</html>
