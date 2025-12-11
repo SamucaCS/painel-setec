@@ -1,219 +1,186 @@
-const SUPABASE_URL = "https://thcxlfpxjokvegkzcjuh.supabase.co";
+console.log("painel.js carregado – Painel Dirigente Equipamentos");
+const SUPABASE_URL = "https://aifreazongolahcnvhrp.supabase.co";
 const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoY3hsZnB4am9rdmVna3pjanVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxMjc0OTQsImV4cCI6MjA3OTcwMzQ5NH0.rv_qmpcdx-OU01bz1NPw3pGRTntAh389XwSZ3G59xRM";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZnJlYXpvbmdvbGFoY252aHJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MDY0NjIsImV4cCI6MjA4MDk4MjQ2Mn0.QbSVAONBBKFQY51RkIy5iOasdUoX0xyrz3iqFpgrGjs";
+const TABLE_NAME = "escola_equipamentos";
+const ESCOLA_FIELD = "escola_nome";
+const COLS = {
+    notebookPositivo: "notebook_positivo",
+    notebookLenovo: "notebook_lenovo",
+    notebookChromebook: "notebook_chromebook",
+    desktop: "desktop",
+    tablet: "tablet",
+    celular: "celular",
+};
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+const state = {
+    currentFilter: "todas",
+    loading: false,
+};
+document.addEventListener("DOMContentLoaded", () => {
+    inicializarPainel();
+});
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+async function inicializarPainel() {
+    configurarListeners();
+    await carregarEscolas();
+    await atualizarPainel();
+}
 
-// Estado em memória
-let escolas = [];
+function configurarListeners() {
+    const schoolSelect = document.getElementById("school-filter");
+    if (!schoolSelect) return;
 
-// Elementos de UI
-const schoolSelect = document.getElementById("schoolSelect");
-const viewModeLabel = document.getElementById("viewModeLabel");
+    schoolSelect.addEventListener("change", async (event) => {
+        state.currentFilter = event.target.value;
+        await atualizarPainel();
+    });
+}
 
-const totalEquipEl = document.getElementById("totalEquip");
-const totalPositivoEl = document.getElementById("totalPositivo");
-const totalLenovoEl = document.getElementById("totalLenovo");
-const totalDesktopEl = document.getElementById("totalDesktop");
-const totalTabletEl = document.getElementById("totalTablet");
-const totalCelularEl = document.getElementById("totalCelular");
+async function carregarEscolas() {
+    setLoading(true, "Carregando escolas...");
 
-let equipmentChart = null;
+    const select = document.getElementById("school-filter");
+    if (!select) return;
 
-// ========== CARREGAR DADOS DO BANCO ==========
+    // Reseta com opção padrão
+    select.innerHTML = '<option value="todas">Todas as escolas</option>';
 
-async function carregarEscolasDoBanco() {
-    // busca todos os registros da tabela
-    const { data, error } = await supabase
-        .from("equipamentos_escola")
-        .select("*")
-        .order("escola_nome", { ascending: true });
+    const { data, error } = await supabaseClient
+        .from(TABLE_NAME)
+        .select(ESCOLA_FIELD);
 
     if (error) {
         console.error("Erro ao carregar escolas:", error);
-        schoolSelect.innerHTML = `<option value="all">Erro ao carregar: veja o console</option>`;
+        setStatus("Erro ao carregar escolas. Verifique o console.");
+        setLoading(false);
         return;
     }
 
-    escolas = data || [];
-    preencherSelectEscolas();
-    atualizarCardsResumo("all");
-    inicializarGrafico();
-    atualizarPillViewLabel("all");
-}
+    const nomes = Array.from(
+        new Set(
+            (data || [])
+                .map((item) => item[ESCOLA_FIELD])
+                .filter((nome) => !!nome)
+        )
+    ).sort((a, b) => a.localeCompare(b, "pt-BR"));
 
-// ========== FUNÇÕES DE UI ==========
-
-function preencherSelectEscolas() {
-    schoolSelect.innerHTML = "";
-
-    const optionAll = document.createElement("option");
-    optionAll.value = "all";
-    optionAll.textContent = "Todas as escolas";
-    schoolSelect.appendChild(optionAll);
-
-    escolas.forEach((esc) => {
+    for (const escola of nomes) {
         const opt = document.createElement("option");
-        opt.value = String(esc.id);
-        opt.textContent = esc.escola_nome;
-        schoolSelect.appendChild(opt);
-    });
-}
-
-function calcularTotais(idEscola = "all") {
-    let notebook_positivo = 0;
-    let notebook_lenovo = 0;
-    let desktop = 0;
-    let tablet = 0;
-    let celular = 0;
-
-    if (idEscola === "all") {
-        escolas.forEach((esc) => {
-            notebook_positivo += esc.notebook_positivo || 0;
-            notebook_lenovo += esc.notebook_lenovo || 0;
-            desktop += esc.desktop || 0;
-            tablet += esc.tablet || 0;
-            celular += esc.celular || 0;
-        });
-    } else {
-        const escola = escolas.find((e) => String(e.id) === String(idEscola));
-        if (escola) {
-            notebook_positivo = escola.notebook_positivo || 0;
-            notebook_lenovo = escola.notebook_lenovo || 0;
-            desktop = escola.desktop || 0;
-            tablet = escola.tablet || 0;
-            celular = escola.celular || 0;
-        }
+        opt.value = escola;
+        opt.textContent = escola;
+        select.appendChild(opt);
     }
 
-    const total = notebook_positivo + notebook_lenovo + desktop + tablet + celular;
+    setLoading(false);
+}
 
-    return {
-        total,
-        notebook_positivo,
-        notebook_lenovo,
-        desktop,
-        tablet,
-        celular,
+async function atualizarPainel() {
+    setLoading(true, "Carregando equipamentos...");
+
+    let query = supabaseClient
+        .from(TABLE_NAME)
+        .select(
+            `${ESCOLA_FIELD}, ${COLS.notebookPositivo}, ${COLS.notebookLenovo}, ${COLS.notebookChromebook}, ${COLS.desktop}, ${COLS.tablet}, ${COLS.celular}`
+        );
+
+    if (state.currentFilter && state.currentFilter !== "todas") {
+        query = query.eq(ESCOLA_FIELD, state.currentFilter);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error("Erro ao carregar dados:", error);
+        setStatus("Erro ao carregar dados. Verifique o console.");
+        setLoading(false);
+        return;
+    }
+
+    const registros = data || [];
+
+    const totais = {
+        tablet: 0,
+        celular: 0,
+        lenovo: 0,
+        chromebook: 0,
+        desktop: 0,
+        positivo: 0,
     };
-}
 
-function atualizarCardsResumo(idEscola) {
-    const t = calcularTotais(idEscola);
+    const getNum = (row, colName) => Number(row[colName] ?? 0);
 
-    totalEquipEl.textContent = t.total;
-    totalPositivoEl.textContent = t.notebook_positivo;
-    totalLenovoEl.textContent = t.notebook_lenovo;
-    totalDesktopEl.textContent = t.desktop;
-    totalTabletEl.textContent = t.tablet;
-    totalCelularEl.textContent = t.celular;
-}
+    for (const row of registros) {
+        totais.tablet += getNum(row, COLS.tablet);
+        totais.celular += getNum(row, COLS.celular);
+        totais.lenovo += getNum(row, COLS.notebookLenovo);
+        totais.chromebook += getNum(row, COLS.notebookChromebook);
+        totais.desktop += getNum(row, COLS.desktop);
+        totais.positivo += getNum(row, COLS.notebookPositivo);
+    }
 
-// ========== GRÁFICO ==========
+    const totalGeral =
+        totais.tablet +
+        totais.celular +
+        totais.lenovo +
+        totais.chromebook +
+        totais.desktop +
+        totais.positivo; 
 
-function inicializarGrafico() {
-    const canvas = document.getElementById("equipmentChart");
-    if (!canvas) return;
+    atualizarValorCard("total-count", totalGeral);
+    atualizarValorCard("tablet-count", totais.tablet);
+    atualizarValorCard("celular-count", totais.celular);
+    atualizarValorCard("lenovo-count", totais.lenovo);
+    atualizarValorCard("chromebook-count", totais.chromebook);
+    atualizarValorCard("desktop-count", totais.desktop);
+    
+    const filtroTexto =
+        state.currentFilter === "todas"
+            ? "todas as escolas"
+            : state.currentFilter;
 
-    const ctx = canvas.getContext("2d");
-    const t = calcularTotais("all");
-
-    equipmentChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: [
-                "Notebook Positivo",
-                "Notebook Lenovo",
-                "Desktop",
-                "Tablet",
-                "Celular",
-            ],
-            datasets: [
-                {
-                    label: "Quantidade de equipamentos",
-                    data: [
-                        t.notebook_positivo,
-                        t.notebook_lenovo,
-                        t.desktop,
-                        t.tablet,
-                        t.celular,
-                    ],
-                    borderWidth: 1,
-                    borderRadius: 10,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { precision: 0 },
-                    grid: { color: "rgba(148, 163, 184, 0.25)" },
-                },
-                x: {
-                    grid: { display: false },
-                },
-            },
-            plugins: {
-                legend: {
-                    labels: { font: { size: 11 } },
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => ` ${context.parsed.y} equipamentos`,
-                    },
-                },
-            },
-        },
-    });
-}
-
-function atualizarGrafico(idEscola) {
-    if (!equipmentChart) return;
-
-    const t = calcularTotais(idEscola);
-
-    equipmentChart.data.datasets[0].data = [
-        t.notebook_positivo,
-        t.notebook_lenovo,
-        t.desktop,
-        t.tablet,
-        t.celular,
-    ];
-    equipmentChart.update();
-}
-
-// ========== LABEL DO MODO DE VISUALIZAÇÃO ==========
-
-function atualizarPillViewLabel(idEscola) {
-    if (idEscola === "all") {
-        viewModeLabel.textContent = "Visão geral – Todas as escolas";
+    if (registros.length === 0) {
+        setStatus(`Nenhum registro encontrado para ${filtroTexto}.`);
     } else {
-        const escola = escolas.find((e) => String(e.id) === String(idEscola));
-        viewModeLabel.textContent = escola
-            ? `Visão detalhada – ${escola.escola_nome}`
-            : "Visão detalhada";
+        setStatus(
+            `Exibindo ${totalGeral} equipamentos cadastrados para ${filtroTexto}.`
+        );
+    }
+
+    const lastUpdated = document.getElementById("last-updated");
+    if (lastUpdated) {
+        const agora = new Date();
+        lastUpdated.textContent = agora.toLocaleString("pt-BR");
+    }
+
+    setLoading(false);
+}
+
+function atualizarValorCard(id, valor) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = valor;
+}
+
+function setLoading(isLoading, mensagemSeCarregando) {
+    state.loading = isLoading;
+    const loader = document.getElementById("loader");
+    const statusEl = document.getElementById("status-text");
+
+    if (loader) {
+        loader.style.display = isLoading ? "inline-block" : "none";
+    }
+
+    if (statusEl && isLoading && mensagemSeCarregando) {
+        statusEl.textContent = mensagemSeCarregando;
     }
 }
 
-// ========== EVENTOS ==========
-
-schoolSelect.addEventListener("change", () => {
-    const idEscola = schoolSelect.value;
-
-    atualizarCardsResumo(idEscola);
-    atualizarGrafico(idEscola);
-    atualizarPillViewLabel(idEscola);
-});
-
-// ========== INICIALIZAÇÃO ==========
-
-async function inicializarRelatorios() {
-    if (!document.getElementById("equipmentChart")) return;
-
-    await carregarEscolasDoBanco();
+function setStatus(mensagem) {
+    const statusEl = document.getElementById("status-text");
+    if (!statusEl) return;
+    statusEl.textContent = mensagem;
 }
-
-document.addEventListener("DOMContentLoaded", inicializarRelatorios);
