@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel de Equipamentos – Dirigente</title>
     <link rel="stylesheet" href="painel.css" />
-    <!-- Supabase JS v2 (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="painel.js" defer></script>
 </head>
@@ -39,8 +38,6 @@
             </div>
         </header>
 
-
-
         <section class="controls-card">
             <div class="controls-row">
                 <div class="control">
@@ -49,7 +46,6 @@
                         <option value="todas">Todas as escolas</option>
                     </select>
                 </div>
-
             </div>
             <p class="last-update">
                 Última atualização: <span id="last-updated">--/--/---- --:--</span>
@@ -57,42 +53,43 @@
         </section>
 
         <main class="cards-grid">
-            <!-- TOTAL -->
+
             <article class="card card-total">
                 <h2>Total de equipamentos</h2>
                 <p class="card-value" id="total-count">0</p>
                 <p class="card-label">Soma de todos os tipos</p>
             </article>
 
-            <!-- TABLET -->
             <article class="card">
                 <h2>Tablets</h2>
                 <p class="card-value" id="tablet-count">0</p>
                 <p class="card-label">Quantidade de tablets cadastrados</p>
             </article>
 
-            <!-- CELULAR -->
             <article class="card">
                 <h2>Celulares</h2>
                 <p class="card-value" id="celular-count">0</p>
                 <p class="card-label">Quantidade de celulares cadastrados</p>
             </article>
 
-            <!-- NOTEBOOK LENOVO -->
             <article class="card">
                 <h2>Notebook Lenovo</h2>
                 <p class="card-value" id="lenovo-count">0</p>
                 <p class="card-label">Equipamentos Lenovo cadastrados</p>
             </article>
 
-            <!-- NOTEBOOK CHROMEBOOK -->
             <article class="card">
                 <h2>Notebook Chromebook</h2>
                 <p class="card-value" id="chromebook-count">0</p>
                 <p class="card-label">Equipamentos Chromebook cadastrados</p>
             </article>
 
-            <!-- DESKTOP -->
+            <article class="card">
+                <h2>Notebook Multilaser</h2>
+                <p class="card-value" id="multilaser-count">0</p>
+                <p class="card-label">Equipamentos Multilaser cadastrados</p>
+            </article>
+
             <article class="card">
                 <h2>Desktops</h2>
                 <p class="card-value" id="desktop-count">0</p>
