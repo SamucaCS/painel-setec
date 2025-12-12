@@ -18,6 +18,7 @@ const COLS = {
     tablet: "tablet",
     celular: "celular",
 };
+
 const state = {
     currentFilter: "todas",
     loading: false,
@@ -42,6 +43,7 @@ function configurarListeners() {
         await atualizarPainel();
     });
 }
+
 async function carregarEscolas() {
     setLoading(true);
 
@@ -132,6 +134,7 @@ async function atualizarPainel() {
         contagem.celular;
 
     atualizarValorCard("total-count", totalGeral);
+    atualizarValorCard("positivo-count", contagem.positivo);
     atualizarValorCard("tablet-count", contagem.tablet);
     atualizarValorCard("celular-count", contagem.celular);
     atualizarValorCard("lenovo-count", contagem.lenovo);
