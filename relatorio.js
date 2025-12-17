@@ -1,8 +1,12 @@
+// relatorio.js (COMPLETO) — corrigido para não redeclarar "supabase"
+
 const SUPABASE_URL = "https://thcxlfpxjokvegkzcjuh.supabase.co";
 const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoY3hsZnB4am9rdmVna3pjanVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxMjc0OTQsImV4cCI6MjA3OTcwMzQ5NH0.rv_qmpcdx-OU01bz1NPw3pGRTntAh389XwSZ3G59xRM";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ✅ NÃO use "const supabase = ..." (isso costuma conflitar com o CDN / outros scripts)
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const urlParams = new URLSearchParams(window.location.search);
 const EDIT_ID = urlParams.get("id") ? Number(urlParams.get("id")) : null;
 
@@ -103,9 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtroStatus = document.getElementById("filtro-status");
     const filtroDataInicio = document.getElementById("filtro-data-inicio");
     const filtroDataFim = document.getElementById("filtro-data-fim");
-    const tabelaUltimosBody = document.querySelector(
-        "#tabela-ultimos tbody"
-    );
+    const tabelaUltimosBody = document.querySelector("#tabela-ultimos tbody");
     const infoQtdPorEscola = document.getElementById("info-qtd-por-escola");
 
     function mostrarSucesso(msg) {
@@ -124,9 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function atualizarVisibilidadeMotivo() {
         if (!campoMotivo || !radiosResolvido.length) return;
-        const selecionado = document.querySelector(
-            'input[name="resolvido"]:checked'
-        );
+        const selecionado = document.querySelector('input[name="resolvido"]:checked');
         if (!selecionado) return;
 
         if (selecionado.value === "nao") {
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!formCadastro) return;
 
         try {
-            const { data, error } = await supabase
+            const { data, error } = await sb
                 .from("cadastros_equipamentos")
                 .select("*")
                 .eq("id", id)
@@ -202,22 +202,16 @@ document.addEventListener("DOMContentLoaded", () => {
     async function handleSubmitCadastro(event) {
         event.preventDefault();
 
-        const escola = document.getElementById("escola").value.trim();
-        const tipo = document.getElementById("tipo_equipamento").value.trim();
-        const data = document.getElementById("data_ocorrencia").value;
-        const descricao = document
-            .getElementById("descricao_problema")
-            .value.trim();
-        const numeroSerie = document.getElementById("numero_serie").value.trim();
+        const escola = document.getElementById("escola")?.value.trim();
+        const tipo = document.getElementById("tipo_equipamento")?.value.trim();
+        const data = document.getElementById("data_ocorrencia")?.value;
+        const descricao = document.getElementById("descricao_problema")?.value.trim();
+        const numeroSerie = document.getElementById("numero_serie")?.value.trim();
 
         const motivo = inputMotivo ? inputMotivo.value.trim() : "";
 
-        const resolvidoSelecionado = document.querySelector(
-            'input[name="resolvido"]:checked'
-        );
-        const resolvidoValue = resolvidoSelecionado
-            ? resolvidoSelecionado.value
-            : "sim";
+        const resolvidoSelecionado = document.querySelector('input[name="resolvido"]:checked');
+        const resolvidoValue = resolvidoSelecionado ? resolvidoSelecionado.value : "sim";
         const resolvido_boolean = resolvidoValue === "sim";
 
         if (!escola || !tipo) {
@@ -231,17 +225,13 @@ document.addEventListener("DOMContentLoaded", () => {
             data_ocorrencia: data || null,
             descricao_problema: descricao || null,
             resolvido_boolean,
-            motivo_nao_resolvido: resolvido_boolean
-                ? null
-                : motivo !== ""
-                    ? motivo
-                    : null,
+            motivo_nao_resolvido: resolvido_boolean ? null : motivo !== "" ? motivo : null,
             numero_serie: numeroSerie || null,
         };
 
         try {
             if (EDIT_ID) {
-                const { error } = await supabase
+                const { error } = await sb
                     .from("cadastros_equipamentos")
                     .update(payload)
                     .eq("id", EDIT_ID);
@@ -258,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "lista.html";
                 }, 800);
             } else {
-                const { error } = await supabase
+                const { error } = await sb
                     .from("cadastros_equipamentos")
                     .insert(payload);
 
@@ -289,10 +279,9 @@ document.addEventListener("DOMContentLoaded", () => {
     async function carregarTabela() {
         if (!tabelaContainer) return;
 
-        tabelaContainer.innerHTML =
-            '<div class="empty-state">Carregando registros...</div>';
+        tabelaContainer.innerHTML = '<div class="empty-state">Carregando registros...</div>';
 
-        const { data, error } = await supabase
+        const { data, error } = await sb
             .from("cadastros_equipamentos")
             .select("*")
             .order("created_at", { ascending: false });
@@ -307,25 +296,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (!data || data.length === 0) {
-            tabelaContainer.innerHTML =
-                '<div class="empty-state">Nenhum registro encontrado.</div>';
+            tabelaContainer.innerHTML = '<div class="empty-state">Nenhum registro encontrado.</div>';
             return;
         }
 
         const linhas = data
             .map((item) => {
                 const dataBr = item.data_ocorrencia
-                    ? new Date(item.data_ocorrencia).toLocaleDateString("pt-BR", {
-                        timeZone: "UTC",
-                    })
+                    ? new Date(item.data_ocorrencia).toLocaleDateString("pt-BR", { timeZone: "UTC" })
                     : "-";
 
-                const statusClasse = item.resolvido_boolean
-                    ? "table-status-sim"
-                    : "table-status-nao";
-                const statusTexto = item.resolvido_boolean
-                    ? "Resolvido"
-                    : "Não resolvido";
+                const statusClasse = item.resolvido_boolean ? "table-status-sim" : "table-status-nao";
+                const statusTexto = item.resolvido_boolean ? "Resolvido" : "Não resolvido";
 
                 return `
           <tr data-id="${item.id}">
@@ -333,18 +315,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <td data-label="Escola">${escapeHTML(item.escola_nome)}</td>
             <td data-label="Patrimônio">${escapeHTML(item.numero_serie || "")}</td>
             <td data-label="Equip.">${escapeHTML(item.tipo_equipamento)}</td>
-            <td data-label="Descrição do problema">${escapeHTML(
-                    item.descricao_problema || ""
-                )}</td>
+            <td data-label="Descrição do problema">${escapeHTML(item.descricao_problema || "")}</td>
             <td data-label="Status" class="${statusClasse}">${statusTexto}</td>
-            <td data-label="Motivo">${escapeHTML(
-                    item.motivo_nao_resolvido || ""
-                )}</td>
+            <td data-label="Motivo">${escapeHTML(item.motivo_nao_resolvido || "")}</td>
             <td data-label="Ações" class="table-actions">
-              <button class="btn-table btn-table--edit" data-id="${item.id
-                    }">Editar</button>
-              <button class="btn-table btn-table--danger" data-id="${item.id
-                    }">Excluir</button>
+              <button class="btn-table btn-table--edit" data-id="${item.id}">Editar</button>
+              <button class="btn-table btn-table--danger" data-id="${item.id}">Excluir</button>
             </td>
           </tr>
         `;
@@ -394,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const ok = confirm("Tem certeza que deseja excluir este registro?");
                 if (!ok) return;
 
-                const { error } = await supabase
+                const { error } = await sb
                     .from("cadastros_equipamentos")
                     .delete()
                     .eq("id", id);
@@ -436,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function popularFiltroEscola() {
         if (!filtroEscola) return;
         filtroEscola.innerHTML = "";
+
         const optAll = document.createElement("option");
         optAll.value = "all";
         optAll.textContent = "Todas as escolas";
@@ -453,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const msg = document.getElementById("mensagem-painel");
         if (msg) msg.textContent = "Carregando dados...";
 
-        const { data, error } = await supabase
+        const { data, error } = await sb
             .from("cadastros_equipamentos")
             .select("*");
 
@@ -470,7 +447,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         registrosPainel = data || [];
-
         popularFiltroEscola();
         atualizarTudoComFiltros();
     }
@@ -537,17 +513,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 const qtd = registrosPainel.filter(
                     (r) => (r.escola_nome || "").trim() === escolaSelecionada.trim()
                 ).length;
-                infoQtdPorEscola.textContent =
-                    "Chamados de manutenção desta escola: " + qtd;
+                infoQtdPorEscola.textContent = "Chamados de manutenção desta escola: " + qtd;
             } else {
-                infoQtdPorEscola.textContent =
-                    "Total de chamados de manutenção na rede: " + totalGeral;
+                infoQtdPorEscola.textContent = "Total de chamados de manutenção na rede: " + totalGeral;
             }
         }
     }
 
     function atualizarTudoComFiltros() {
-        if (!registrosPainel.length) return;
+        if (!registrosPainel.length) {
+            atualizarKPIsPainel([]);
+            destruirGraficosPainel();
+            renderizarUltimosRegistros([]);
+            atualizarMensagemPainel([]);
+            return;
+        }
+
         const registrosFiltrados = aplicarFiltrosBasicos();
 
         atualizarKPIsPainel(registrosFiltrados);
@@ -558,9 +539,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function atualizarKPIsPainel(registros) {
         const total = registros.length;
-        const resolvidos = registros.filter(
-            (r) => r.resolvido_boolean === true
-        ).length;
+        const resolvidos = registros.filter((r) => r.resolvido_boolean === true).length;
         const naoResolvidos = total - resolvidos;
 
         const escolasSet = new Set(
@@ -602,7 +581,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const valoresTipo = Object.values(contagemPorTipo);
 
         const ctxTipo = canvasTipo.getContext("2d");
-
         if (chartTipoEquipamento) chartTipoEquipamento.destroy();
 
         chartTipoEquipamento = new Chart(ctxTipo, {
@@ -621,39 +599,33 @@ document.addEventListener("DOMContentLoaded", () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1, display: false }, // sem números
+                        ticks: { stepSize: 1, display: false },
                         grid: { color: "rgba(148,163,184,0.18)" },
                     },
                     x: {
-                        ticks: { display: false }, // sem números também
+                        ticks: { display: false },
                         grid: { display: false },
                     },
                 },
             },
         });
 
-        // --- Cadastros por escola (todas as escolas com dados) ---
+        // --- Cadastros por escola ---
         const contagemPorEscola = registros.reduce((acc, r) => {
             const escola = (r.escola_nome || "Não informada").trim();
             acc[escola] = (acc[escola] || 0) + 1;
             return acc;
         }, {});
 
-        const escolasOrdenadas = Object.entries(contagemPorEscola).sort(
-            (a, b) => b[1] - a[1]
-        );
-
+        const escolasOrdenadas = Object.entries(contagemPorEscola).sort((a, b) => b[1] - a[1]);
         const labelsEscola = escolasOrdenadas.map(([nome]) => nome);
         const valoresEscola = escolasOrdenadas.map(([, qtd]) => qtd);
 
         const ctxEscola = canvasEscola.getContext("2d");
-
         if (chartPorEscola) chartPorEscola.destroy();
 
         chartPorEscola = new Chart(ctxEscola, {
@@ -673,20 +645,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 responsive: true,
                 maintainAspectRatio: false,
                 indexAxis: "y",
-                plugins: {
-                    legend: { display: false },
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     x: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1, display: false }, // sem números
+                        ticks: { stepSize: 1, display: false },
                         grid: { color: "rgba(148,163,184,0.18)" },
                     },
                     y: {
-                        ticks: {
-                            font: { size: 11 },
-                            color: "#cbd5f5",
-                        },
+                        ticks: { font: { size: 11 }, color: "#cbd5f5" },
                         grid: { display: false },
                     },
                 },
@@ -706,43 +673,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderizarUltimosRegistros(registros) {
-        const tabelaUltimosBody = document.querySelector("#tabela-ultimos tbody");
-        if (!tabelaUltimosBody) return;
+        const tabelaUltimosBodyLocal = document.querySelector("#tabela-ultimos tbody");
+        if (!tabelaUltimosBodyLocal) return;
 
         if (!registros || !registros.length) {
-            tabelaUltimosBody.innerHTML =
+            tabelaUltimosBodyLocal.innerHTML =
                 '<tr><td colspan="5" class="table-empty">Nenhum registro encontrado com os filtros atuais.</td></tr>';
             return;
         }
 
         const ordenados = [...registros].sort((a, b) => {
-            const da = a.data_ocorrencia
-                ? new Date(a.data_ocorrencia)
-                : a.created_at
-                    ? new Date(a.created_at)
-                    : 0;
-            const db = b.data_ocorrencia
-                ? new Date(b.data_ocorrencia)
-                : b.created_at
-                    ? new Date(b.created_at)
-                    : 0;
+            const da = a.data_ocorrencia ? new Date(a.data_ocorrencia) : a.created_at ? new Date(a.created_at) : 0;
+            const db = b.data_ocorrencia ? new Date(b.data_ocorrencia) : b.created_at ? new Date(b.created_at) : 0;
             return db - da;
         });
 
         const linhas = ordenados
             .map((reg) => {
                 const dataBr = reg.data_ocorrencia
-                    ? new Date(reg.data_ocorrencia).toLocaleDateString("pt-BR", {
-                        timeZone: "UTC",
-                    })
+                    ? new Date(reg.data_ocorrencia).toLocaleDateString("pt-BR", { timeZone: "UTC" })
                     : "-";
-                const tema = reg.tipo_equipamento
-                    ? escapeHTML(reg.tipo_equipamento)
-                    : "Chamado de manutenção";
+
+                const tema = reg.tipo_equipamento ? escapeHTML(reg.tipo_equipamento) : "Chamado de manutenção";
                 const escola = reg.escola_nome ? escapeHTML(reg.escola_nome) : "-";
-                const desc = reg.descricao_problema
-                    ? escapeHTML(reg.descricao_problema)
-                    : "-";
+                const desc = reg.descricao_problema ? escapeHTML(reg.descricao_problema) : "-";
+
                 const statusResolvido = reg.resolvido_boolean === true;
                 const statusTexto = statusResolvido ? "Resolvido" : "manutenção pela escola";
                 const statusClasse = statusResolvido
@@ -750,18 +705,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     : "status-badge status-badge--warn";
 
                 return `
-        <tr>
-          <td>${tema}</td>
-          <td>${escola}</td>
-          <td class="col-descricao">${desc}</td>
-          <td><span class="${statusClasse}">${statusTexto}</span></td>
-          <td>${dataBr}</td>
-        </tr>
-      `;
+          <tr>
+            <td>${tema}</td>
+            <td>${escola}</td>
+            <td class="col-descricao">${desc}</td>
+            <td><span class="${statusClasse}">${statusTexto}</span></td>
+            <td>${dataBr}</td>
+          </tr>
+        `;
             })
             .join("");
 
-        tabelaUltimosBody.innerHTML = linhas;
+        tabelaUltimosBodyLocal.innerHTML = linhas;
     }
 
     if (filtroEscola) filtroEscola.addEventListener("change", atualizarTudoComFiltros);
