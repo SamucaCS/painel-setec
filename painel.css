@@ -1,17 +1,21 @@
 :root {
-  --bg: #020617;
-  --bg-alt: #020617;
-  --card: #020617;
-  --card-elevated: #020617;
-  --border-subtle: rgba(148, 163, 184, 0.25);
-  --accent: #22c55e;
-  --accent-soft: rgba(34, 197, 94, 0.12);
-  --accent-strong: #16a34a;
-  --text: #e5e7eb;
-  --text-muted: #9ca3af;
-  --danger: #ef4444;
+  --bg: #f4fbf7;
+  --bg-alt: #f4fbf7;
+  --card: #ffffff;
+  --card-elevated: rgba(255, 255, 255, 0.92);
+  --border-subtle: rgba(15, 42, 28, 0.12);
+
+  --accent: #1f9d5a;
+  --accent-soft: rgba(31, 157, 90, 0.12);
+  --accent-strong: #17844c;
+
+  --text: #0f2a1c;
+  --text-muted: rgba(15, 42, 28, 0.62);
+
+  --danger: #d93a3a;
+
   --radius-lg: 18px;
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+  --shadow-soft: 0 18px 45px rgba(15, 42, 28, 0.10);
 }
 
 *,
@@ -29,9 +33,9 @@ body {
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, #1d2440 0, transparent 55%),
-    radial-gradient(circle at bottom right, #064e3b 0, transparent 55%),
-    #020617;
+    radial-gradient(circle at top left, rgba(31, 157, 90, 0.18), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(31, 157, 90, 0.10), transparent 55%),
+    #f4fbf7;
   color: var(--text);
   min-height: 100vh;
 }
@@ -41,8 +45,6 @@ body {
   margin: 0 auto;
   padding: 2.5rem 1.25rem 3.5rem;
 }
-
-/* HEADER */
 
 .page-header {
   display: flex;
@@ -84,8 +86,8 @@ body {
   gap: 0.4rem;
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(15, 42, 28, 0.12);
+  background: rgba(255, 255, 255, 0.86);
   font-size: 0.8rem;
   color: var(--text-muted);
   white-space: nowrap;
@@ -96,10 +98,8 @@ body {
   height: 0.55rem;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.85);
+  box-shadow: 0 0 12px rgba(31, 157, 90, 0.35);
 }
-
-/* NAV LINKS / BOTÕES DO HEADER */
 
 .nav-links {
   display: flex;
@@ -116,16 +116,16 @@ body {
   border-radius: 999px;
   font-size: 0.8rem;
   text-decoration: none;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb;
+  border: 1px solid rgba(15, 42, 28, 0.18);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--text);
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
 .nav-btn:hover {
-  background: rgba(30, 64, 175, 0.65);
-  border-color: rgba(129, 140, 248, 0.9);
+  background: rgba(31, 157, 90, 0.10);
+  border-color: rgba(31, 157, 90, 0.35);
   transform: translateY(-1px);
 }
 
@@ -133,19 +133,18 @@ body {
   border-color: var(--accent);
   background: var(--accent-soft);
   color: var(--accent);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .nav-btn-primary:hover {
-  background: rgba(34, 197, 94, 0.25);
+  background: rgba(31, 157, 90, 0.18);
   border-color: var(--accent-strong);
 }
 
-/* CONTROLS */
-
 .controls-card {
-  background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.07), transparent 55%),
-    rgba(15, 23, 42, 0.95);
+  background:
+    radial-gradient(circle at top left, rgba(31, 157, 90, 0.10), transparent 55%),
+    rgba(255, 255, 255, 0.92);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
   padding: 1rem 1.2rem 0.8rem;
@@ -176,14 +175,15 @@ body {
   width: 100%;
   padding: 0.55rem 0.8rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(15, 42, 28, 0.18);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--text);
   font-size: 0.9rem;
   outline: none;
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(15, 42, 28, 0.55) 50%),
+    linear-gradient(135deg, rgba(15, 42, 28, 0.55) 50%, transparent 50%);
   background-position: calc(100% - 14px) calc(50% - 2px),
     calc(100% - 9px) calc(50% - 2px);
   background-size: 6px 6px, 6px 6px;
@@ -191,8 +191,8 @@ body {
 }
 
 #school-filter:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7);
+  border-color: rgba(31, 157, 90, 0.55);
+  box-shadow: 0 0 0 4px rgba(31, 157, 90, 0.12);
 }
 
 .status {
@@ -209,7 +209,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 999px;
-  border: 2px solid rgba(148, 163, 184, 0.6);
+  border: 2px solid rgba(15, 42, 28, 0.22);
   border-top-color: var(--accent);
   animation: spin 0.6s linear infinite;
   display: none;
@@ -227,8 +227,6 @@ body {
   color: var(--text-muted);
 }
 
-/* CARDS GRID */
-
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -236,7 +234,7 @@ body {
 }
 
 .card {
-  background: rgba(15, 23, 42, 0.96);
+  background: rgba(255, 255, 255, 0.92);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
   padding: 1.15rem 1.2rem 1.1rem;
@@ -250,7 +248,7 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0;
-  background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.09), transparent 55%);
+  background: radial-gradient(circle at top right, rgba(31, 157, 90, 0.10), transparent 55%);
   transition: opacity 0.2s ease-out;
   pointer-events: none;
 }
@@ -262,14 +260,14 @@ body {
 .card h2 {
   margin: 0 0 0.4rem;
   font-size: 0.95rem;
-  font-weight: 500;
-  color: #e5e7eb;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .card-value {
   margin: 0.2rem 0 0.25rem;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.04em;
   color: var(--accent);
 }
@@ -280,12 +278,11 @@ body {
   color: var(--text-muted);
 }
 
-/* Card total */
-
 .card-total {
-  background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 60%),
-    rgba(15, 23, 42, 0.98);
-  border-color: rgba(34, 197, 94, 0.6);
+  background:
+    radial-gradient(circle at top left, rgba(31, 157, 90, 0.12), transparent 60%),
+    rgba(255, 255, 255, 0.94);
+  border-color: rgba(31, 157, 90, 0.35);
 }
 
 .card-total .card-value {
@@ -298,14 +295,11 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 999px;
-  border: 1px solid rgba(34, 197, 94, 0.45);
-  opacity: 0.15;
+  border: 1px solid rgba(31, 157, 90, 0.35);
+  opacity: 0.18;
   right: -35px;
   bottom: -35px;
 }
-
-/* RESPONSIVO */
-
 @media (max-width: 960px) {
   .cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
