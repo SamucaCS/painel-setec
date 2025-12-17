@@ -1,22 +1,18 @@
-/* =========================================================
-   PAINEL DO DIRIGENTE – relatorio.html
-   ========================================================= */
-
 body[data-page="relatorio"] {
-    background: radial-gradient(circle at top, #020617 0%, #020617 55%, #020617 100%);
-    color: #e5e7eb;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(31, 157, 90, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(31, 157, 90, 0.10), transparent 55%),
+        #f4fbf7;
+    color: #0f2a1c;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* HEADER / NAV */
-
 body[data-page="relatorio"] .site-header {
-    border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+    border-bottom: 1px solid rgba(15, 42, 28, 0.12);
     backdrop-filter: blur(14px);
     background: linear-gradient(to right,
-            rgba(15, 23, 42, 0.85),
-            rgba(15, 23, 42, 0.92));
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.94));
 }
 
 body[data-page="relatorio"] .nav {
@@ -28,15 +24,14 @@ body[data-page="relatorio"] .brand-role {
     font-family: "Space Grotesk", system-ui, sans-serif;
 }
 
-/* Nav pills bonitinhas */
 body[data-page="relatorio"] .nav-links {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 4px 6px;
     border-radius: 999px;
-    background: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(31, 157, 90, 0.08);
+    border: 1px solid rgba(15, 42, 28, 0.12);
 }
 
 body[data-page="relatorio"] .nav-links a {
@@ -44,30 +39,28 @@ body[data-page="relatorio"] .nav-links a {
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid transparent;
-    color: #e5e7eb;
+    color: #0f2a1c;
     text-decoration: none;
     background: transparent;
-    opacity: 0.9;
+    opacity: 0.92;
     transition: all 0.15s ease-out;
 }
 
 body[data-page="relatorio"] .nav-links a:hover {
     opacity: 1;
-    border-color: rgba(148, 163, 184, 0.7);
+    border-color: rgba(31, 157, 90, 0.35);
     background: radial-gradient(circle at top left,
-            rgba(56, 189, 248, 0.16),
+            rgba(31, 157, 90, 0.14),
             transparent 60%);
 }
 
 body[data-page="relatorio"] .nav-links a.active {
     opacity: 1;
-    color: #020617;
-    background: linear-gradient(135deg, #22d3ee, #4f46e5);
+    color: #ffffff;
+    background: linear-gradient(135deg, #1f9d5a, #3ccf86);
     border-color: transparent;
-    box-shadow: 0 10px 24px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 10px 24px rgba(31, 157, 90, 0.28);
 }
-
-/* MAIN / CABEÇALHO */
 
 body[data-page="relatorio"] .main-content {
     padding-top: 2rem;
@@ -91,11 +84,9 @@ body[data-page="relatorio"] .page-header h1 {
 
 body[data-page="relatorio"] .page-header p {
     margin: 0.35rem 0 0;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
     font-size: 0.92rem;
 }
-
-/* FILTRO GERAL POR ESCOLA */
 
 .painel-filter-row {
     display: flex;
@@ -109,44 +100,44 @@ body[data-page="relatorio"] .page-header p {
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
 }
 
 .filter-select {
     min-width: 260px;
     padding: 7px 11px;
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.7);
-    background: rgba(15, 23, 42, 0.95);
-    color: #e5e7eb;
+    border: 1px solid rgba(15, 42, 28, 0.18);
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f2a1c;
     font-size: 0.86rem;
     outline: none;
     appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #64748b 50%),
-        linear-gradient(135deg, #64748b 50%, transparent 50%);
+    background-image: linear-gradient(45deg, transparent 50%, rgba(15, 42, 28, 0.55) 50%),
+        linear-gradient(135deg, rgba(15, 42, 28, 0.55) 50%, transparent 50%);
     background-position: calc(100% - 16px) 11px, calc(100% - 11px) 11px;
     background-size: 6px 6px, 6px 6px;
     background-repeat: no-repeat;
 }
 
 .filter-select:focus {
-    border-color: #22d3ee;
-    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    border-color: rgba(31, 157, 90, 0.55);
+    box-shadow: 0 0 0 4px rgba(31, 157, 90, 0.12);
 }
 
 .filter-hint {
     margin: 0;
     font-size: 0.8rem;
-    color: #94a3b8;
+    color: rgba(15, 42, 28, 0.55);
 }
 
-/* CARDS GERAIS */
-
 body[data-page="relatorio"] .card {
-    background: radial-gradient(circle at top left, #111827 0%, #020617 65%);
+    background:
+        radial-gradient(circle at top left, rgba(31, 157, 90, 0.10), transparent 65%),
+        rgba(255, 255, 255, 0.92);
     border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(15, 42, 28, 0.12);
+    box-shadow: 0 24px 70px rgba(15, 42, 28, 0.10);
     padding: 18px 22px 20px;
 }
 
@@ -163,10 +154,8 @@ body[data-page="relatorio"] h2 {
 body[data-page="relatorio"] .card-subtitle {
     margin-top: 0.35rem;
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: rgba(15, 42, 28, 0.60);
 }
-
-/* KPIs */
 
 .kpi-grid {
     display: grid;
@@ -190,8 +179,8 @@ body[data-page="relatorio"] .card-subtitle {
 .kpi-card {
     border-radius: 14px;
     padding: 12px 14px 14px;
-    background: rgba(15, 23, 42, 0.96);
-    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 42, 28, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -200,7 +189,7 @@ body[data-page="relatorio"] .card-subtitle {
 
 .kpi-label {
     font-size: 0.78rem;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
 }
 
 .kpi-value {
@@ -209,20 +198,21 @@ body[data-page="relatorio"] .card-subtitle {
     font-size: 1.7rem;
     font-weight: 600;
     letter-spacing: 0.04em;
+    color: #0f2a1c;
 }
 
 .kpi-subtitle {
     margin-top: 4px;
     font-size: 0.78rem;
-    color: #6b7280;
+    color: rgba(15, 42, 28, 0.55);
 }
 
 .kpi-success {
-    color: #22c55e;
+    color: #1f9d5a;
 }
 
 .kpi-warning {
-    color: #f97316;
+    color: #c07a12;
 }
 
 /* GRÁFICOS */
@@ -241,9 +231,9 @@ body[data-page="relatorio"] .card-subtitle {
 }
 
 .chart-card {
-    background: rgba(15, 23, 42, 0.97);
+    background: rgba(255, 255, 255, 0.92);
     border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.3);
+    border: 1px solid rgba(15, 42, 28, 0.12);
     padding: 12px 14px 16px;
 }
 
@@ -251,6 +241,7 @@ body[data-page="relatorio"] .card-subtitle {
     margin: 0 0 6px;
     font-size: 0.92rem;
     font-family: "Space Grotesk", system-ui, sans-serif;
+    color: #0f2a1c;
 }
 
 .chart-wrapper {
@@ -262,10 +253,8 @@ body[data-page="relatorio"] .card-subtitle {
 #mensagem-painel {
     margin-top: 0.9rem;
     font-size: 0.8rem;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
 }
-
-/* ====== ÚLTIMOS REGISTROS ====== */
 
 .card-table {
     margin-top: 1.75rem;
@@ -281,10 +270,8 @@ body[data-page="relatorio"] .card-subtitle {
 
 .card-table-info {
     font-size: 0.8rem;
-    color: #e5e7eb;
+    color: #0f2a1c;
 }
-
-/* filtros da tabela */
 
 .table-filters {
     display: flex;
@@ -303,18 +290,24 @@ body[data-page="relatorio"] .card-subtitle {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
 }
 
 .table-filters select,
 .table-filters input[type="date"] {
     padding: 6px 10px;
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.7);
-    background: rgba(15, 23, 42, 0.96);
-    color: #e5e7eb;
+    border: 1px solid rgba(15, 42, 28, 0.18);
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f2a1c;
     font-size: 0.82rem;
     outline: none;
+}
+
+.table-filters select:focus,
+.table-filters input[type="date"]:focus {
+    border-color: rgba(31, 157, 90, 0.55);
+    box-shadow: 0 0 0 4px rgba(31, 157, 90, 0.12);
 }
 
 /* tabela */
@@ -331,33 +324,33 @@ body[data-page="relatorio"] .card-subtitle {
 }
 
 .table-chamados thead tr {
-    background: linear-gradient(90deg, #b91c1c, #7f1d1d);
+    background: linear-gradient(90deg, rgba(31, 157, 90, 0.22), rgba(31, 157, 90, 0.10));
 }
 
 .table-chamados thead th {
     text-align: left;
     padding: 8px 10px;
-    color: #f9fafb;
-    font-weight: 500;
+    color: #0f2a1c;
+    font-weight: 600;
 }
 
 .table-chamados tbody tr:nth-child(even) {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(31, 157, 90, 0.05);
 }
 
 .table-chamados tbody tr:nth-child(odd) {
-    background: rgba(15, 23, 42, 0.96);
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .table-chamados tbody td {
     padding: 7px 10px;
-    border-top: 1px solid rgba(30, 64, 175, 0.4);
-    color: #e5e7eb;
+    border-top: 1px solid rgba(15, 42, 28, 0.10);
+    color: #0f2a1c;
     vertical-align: top;
 }
 
 .table-chamados tbody tr:hover {
-    background: rgba(30, 64, 175, 0.35);
+    background: rgba(31, 157, 90, 0.10);
 }
 
 .col-descricao {
@@ -370,11 +363,8 @@ body[data-page="relatorio"] .card-subtitle {
 .table-empty {
     text-align: center;
     padding: 12px 10px;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.55);
 }
-
-/* badges de status */
-
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -382,16 +372,22 @@ body[data-page="relatorio"] .card-subtitle {
     padding: 2px 10px;
     border-radius: 999px;
     font-size: 0.75rem;
-    font-weight: 500;
-    color: #020617;
+    font-weight: 600;
+    color: #0f2a1c;
+    border: 1px solid rgba(15, 42, 28, 0.12);
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .status-badge--ok {
-    background: #22c55e;
+    background: rgba(31, 157, 90, 0.14);
+    border-color: rgba(31, 157, 90, 0.25);
+    color: #0f2a1c;
 }
 
 .status-badge--warn {
-    background: #facc15;
+    background: rgba(192, 122, 18, 0.16);
+    border-color: rgba(192, 122, 18, 0.25);
+    color: #0f2a1c;
 }
 
 @media (max-width: 720px) {
