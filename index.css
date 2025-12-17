@@ -1,24 +1,18 @@
-/* =========================================
-   HOME (index.html) – BI Manutenção Predial
-   ========================================= */
-
 body[data-page="home"] {
     background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
-        linear-gradient(135deg, #020617 0%, #020617 45%, #020617 100%);
-    color: #e5e7eb;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+        radial-gradient(circle at top left, rgba(31, 157, 90, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(31, 157, 90, 0.10), transparent 55%),
+        #f4fbf7;
+    color: #0f2a1c;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Header / NAV igual ao painel de chamados */
-
 body[data-page="home"] .site-header {
-    border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+    border-bottom: 1px solid rgba(15, 42, 28, 0.12);
     backdrop-filter: blur(14px);
     background: linear-gradient(to right,
-            rgba(15, 23, 42, 0.9),
-            rgba(15, 23, 42, 0.96));
+            rgba(255, 255, 255, 0.86),
+            rgba(255, 255, 255, 0.94));
 }
 
 body[data-page="home"] .nav {
@@ -36,8 +30,8 @@ body[data-page="home"] .nav-links {
     gap: 8px;
     padding: 4px 6px;
     border-radius: 999px;
-    background: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(31, 157, 90, 0.08);
+    border: 1px solid rgba(15, 42, 28, 0.12);
 }
 
 body[data-page="home"] .nav-links a {
@@ -45,30 +39,28 @@ body[data-page="home"] .nav-links a {
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid transparent;
-    color: #e5e7eb;
+    color: #0f2a1c;
     text-decoration: none;
     background: transparent;
-    opacity: 0.9;
+    opacity: 0.92;
     transition: all 0.15s ease-out;
 }
 
 body[data-page="home"] .nav-links a:hover {
     opacity: 1;
-    border-color: rgba(148, 163, 184, 0.7);
+    border-color: rgba(31, 157, 90, 0.35);
     background: radial-gradient(circle at top left,
-            rgba(56, 189, 248, 0.16),
+            rgba(31, 157, 90, 0.14),
             transparent 60%);
 }
 
 body[data-page="home"] .nav-links a.active {
     opacity: 1;
-    color: #020617;
-    background: linear-gradient(135deg, #22d3ee, #4f46e5);
+    color: #ffffff;
+    background: linear-gradient(135deg, #1f9d5a, #3ccf86);
     border-color: transparent;
-    box-shadow: 0 10px 24px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 10px 24px rgba(31, 157, 90, 0.28);
 }
-
-/* Main / hero */
 
 body[data-page="home"] .main-content {
     padding-top: 2rem;
@@ -88,21 +80,19 @@ body[data-page="home"] .page-header h1 {
 
 body[data-page="home"] .page-header p {
     margin: 0.4rem 0 0;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
     font-size: 0.92rem;
     max-width: 640px;
 }
 
-/* Cards da home (reutilizando o layout de card, mas um pouco mais “suave”) */
-
 body[data-page="home"] .card {
     background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 60%),
-        radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.14), transparent 60%),
-        rgba(15, 23, 42, 0.97);
+        radial-gradient(circle at top left, rgba(31, 157, 90, 0.10), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(31, 157, 90, 0.08), transparent 60%),
+        rgba(255, 255, 255, 0.92);
     border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(15, 42, 28, 0.12);
+    box-shadow: 0 24px 70px rgba(15, 42, 28, 0.10);
     padding: 18px 20px 20px;
 }
 
@@ -117,10 +107,8 @@ body[data-page="home"] .card h2 {
 body[data-page="home"] .card-subtitle {
     margin-top: 0.35rem;
     font-size: 0.86rem;
-    color: #94a3b8;
+    color: rgba(15, 42, 28, 0.62);
 }
-
-/* Grid dos 4 cards de atalho da home */
 
 body[data-page="home"] .kpi-grid {
     display: grid;
@@ -148,22 +136,22 @@ body[data-page="home"] .kpi-card::after {
     position: absolute;
     inset: auto -40px -38px;
     height: 80px;
-    background: radial-gradient(circle at bottom, rgba(56, 189, 248, 0.28), transparent 60%);
+    background: radial-gradient(circle at bottom, rgba(31, 157, 90, 0.22), transparent 60%);
     opacity: 0.9;
     pointer-events: none;
 }
 
 body[data-page="home"] .kpi-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 26px 70px rgba(56, 189, 248, 0.28);
-    border-color: rgba(56, 189, 248, 0.65);
+    box-shadow: 0 26px 70px rgba(31, 157, 90, 0.18);
+    border-color: rgba(31, 157, 90, 0.35);
 }
 
 body[data-page="home"] .kpi-card .kpi-label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: #9ca3af;
+    color: rgba(15, 42, 28, 0.65);
 }
 
 body[data-page="home"] .kpi-card .kpi-value {
@@ -174,16 +162,14 @@ body[data-page="home"] .kpi-card .kpi-value {
 body[data-page="home"] .kpi-card .kpi-subtitle {
     margin-top: 6px;
     font-size: 0.8rem;
-    color: #cbd5f5;
+    color: rgba(15, 42, 28, 0.62);
 }
 
-/* Rodapé da home */
-
 body[data-page="home"] .site-footer {
-    border-top: 1px solid rgba(37, 99, 235, 0.7);
+    border-top: 1px solid rgba(15, 42, 28, 0.12);
     background:
-        radial-gradient(circle at bottom, rgba(56, 189, 248, 0.18), transparent 60%),
-        rgba(15, 23, 42, 0.97);
+        radial-gradient(circle at bottom, rgba(31, 157, 90, 0.12), transparent 60%),
+        rgba(255, 255, 255, 0.92);
     padding-block: 8px;
     margin-top: 8px;
 }
